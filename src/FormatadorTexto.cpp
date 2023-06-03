@@ -57,24 +57,16 @@ std::string FormatadorTexto::formatarTexto(const std::string& texto, const unsig
 }
 
 void FormatadorTexto::adicionarEspacosComBaseFormato(std::string& referencia, const unsigned int posicao, const unsigned int quantidadeEspacos, const Alinhamento alinhamento) {
-    switch(alinhamento) {
-        case(Alinhamento::ESQUERDA): {
-            adicionarEspacosFim(referencia, quantidadeEspacos);
-
-            break;
-        }
-        case(Alinhamento::DIREITA): {
-            adicionarEspacosPosicao(referencia, posicao, quantidadeEspacos);
-
-            break;
-        }
-        case(Alinhamento::CENTRO): {
-            unsigned int quantidadeEspacosEmCadaLado = std::round((quantidadeEspacos) / 2);
-            adicionarEspacosPosicao(referencia, posicao, quantidadeEspacosEmCadaLado);
-            adicionarEspacosFim(referencia, quantidadeEspacosEmCadaLado);
-
-            break;
-        }
+    if(alinhamento == Alinhamento::ESQUERDA) {
+        adicionarEspacosFim(referencia, quantidadeEspacos);
+    }
+    else if(alinhamento == Alinhamento::DIREITA) {
+        adicionarEspacosPosicao(referencia, posicao, quantidadeEspacos);
+    }
+    else if(alinhamento == Alinhamento::CENTRO) {
+        unsigned int quantidadeEspacosEmCadaLado = std::round((quantidadeEspacos) / 2);
+        adicionarEspacosPosicao(referencia, posicao, quantidadeEspacosEmCadaLado);
+        adicionarEspacosFim(referencia, quantidadeEspacosEmCadaLado);
     }
 
     return;
