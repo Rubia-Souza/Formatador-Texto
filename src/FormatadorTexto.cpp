@@ -40,10 +40,10 @@ std::string FormatadorTexto::formatarEsquerda(const std::string& texto, const un
     std::vector<std::string> textoSeparado = split(texto, ' ');
 
     unsigned int contadorTamanhoLinha = 0;
-    for(unsigned int i = 0; i < textoSeparado.size(); i++) {
-        if(contadorTamanhoLinha + textoSeparado[i].size() < maximoCaracteresPorLinha) {
-            contadorTamanhoLinha += textoSeparado[i].size() + 1;
-            textoFormatado += textoSeparado[i] + ' ';
+    for(std::string palavra : textoSeparado) {
+        if(contadorTamanhoLinha + palavra.size() < maximoCaracteresPorLinha) {
+            contadorTamanhoLinha += palavra.size() + 1;
+            textoFormatado += palavra + ' ';
         }
         else {
             for(unsigned int j = contadorTamanhoLinha; j < maximoCaracteresPorLinha; j++) {
@@ -51,8 +51,8 @@ std::string FormatadorTexto::formatarEsquerda(const std::string& texto, const un
             }
             textoFormatado.push_back('\n');
             
-            contadorTamanhoLinha = textoSeparado[i].size() + 1;
-            textoFormatado += textoSeparado[i] + ' ';
+            contadorTamanhoLinha = palavra.size() + 1;
+            textoFormatado += palavra + ' ';
         }
     }
 
@@ -65,10 +65,10 @@ std::string FormatadorTexto::formatarDireita(const std::string& texto, const uns
 
     unsigned int contadorTamanhoLinha = 0;
     unsigned int indexEspacamento = 0;
-    for(unsigned int i = 0; i < textoSeparado.size(); i++) {
-        if(contadorTamanhoLinha + textoSeparado[i].size() < maximoCaracteresPorLinha) {
-            contadorTamanhoLinha += textoSeparado[i].size() + 1;
-            textoFormatado += textoSeparado[i] + ' ';
+    for(std::string palavra : textoSeparado) {
+        if(contadorTamanhoLinha + palavra.size() < maximoCaracteresPorLinha) {
+            contadorTamanhoLinha += palavra.size() + 1;
+            textoFormatado += palavra + ' ';
         }
         else {
             for(unsigned int j = contadorTamanhoLinha; j < maximoCaracteresPorLinha; j++) {
@@ -77,8 +77,8 @@ std::string FormatadorTexto::formatarDireita(const std::string& texto, const uns
             textoFormatado.push_back('\n');
             indexEspacamento = textoFormatado.size();
             
-            contadorTamanhoLinha = textoSeparado[i].size() + 1;
-            textoFormatado += textoSeparado[i] + ' ';
+            contadorTamanhoLinha = palavra.size() + 1;
+            textoFormatado += palavra + ' ';
         }
     }
 
@@ -95,10 +95,10 @@ std::string FormatadorTexto::formatarCentro(const std::string& texto, const unsi
 
     unsigned int indexEspacamento = 0;
     unsigned int contadorTamanhoLinha = 0;
-    for(unsigned int i = 0; i < textoSeparado.size(); i++) {
-        if(contadorTamanhoLinha + textoSeparado[i].size() < maximoCaracteresPorLinha) {
-            contadorTamanhoLinha += textoSeparado[i].size() + 1;
-            textoFormatado += textoSeparado[i] + ' ';
+    for(std::string palavra : textoSeparado) {
+        if(contadorTamanhoLinha + palavra.size() < maximoCaracteresPorLinha) {
+            contadorTamanhoLinha += palavra.size() + 1;
+            textoFormatado += palavra + ' ';
         }
         else {
             unsigned int quantidadeEspacos = maximoCaracteresPorLinha - contadorTamanhoLinha;
@@ -115,8 +115,8 @@ std::string FormatadorTexto::formatarCentro(const std::string& texto, const unsi
             textoFormatado.push_back('\n');
             indexEspacamento = textoFormatado.size();
             
-            contadorTamanhoLinha = textoSeparado[i].size() + 1;
-            textoFormatado += textoSeparado[i] + ' ';
+            contadorTamanhoLinha = palavra.size() + 1;
+            textoFormatado += palavra + ' ';
         }
     }
 
