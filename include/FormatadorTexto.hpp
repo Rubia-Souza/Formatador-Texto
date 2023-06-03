@@ -7,6 +7,8 @@
 
 class FormatadorTexto {
     private:
+        static const char TOKEN_ESPACO = ' ';
+
         FormatadorTexto();
 
     public:

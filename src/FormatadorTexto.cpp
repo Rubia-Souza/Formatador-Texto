@@ -39,6 +39,7 @@ std::string FormatadorTexto::formatarEsquerda(const std::string& texto, const un
     std::string textoFormatado = "";
     std::vector<std::string> textoSeparado = split(texto, ' ');
 
+    std::string palavraAnterior = "";
     unsigned int contadorTamanhoLinha = 0;
     for(std::string palavra : textoSeparado) {
         if(contadorTamanhoLinha + palavra.size() < maximoCaracteresPorLinha) {
@@ -46,12 +47,24 @@ std::string FormatadorTexto::formatarEsquerda(const std::string& texto, const un
             textoFormatado += palavra + ' ';
         }
         else {
+            if(palavraAnterior.size() < maximoCaracteresPorLinha) {
+                textoFormatado.pop_back();
+                contadorTamanhoLinha--;
+            }
+
             adicionarEspacosFim(textoFormatado, maximoCaracteresPorLinha - contadorTamanhoLinha);
             textoFormatado.push_back('\n');
             
             contadorTamanhoLinha = palavra.size() + 1;
             textoFormatado += palavra + ' ';
         }
+
+        palavraAnterior = palavra;
+    }
+
+    if(palavraAnterior.size() < maximoCaracteresPorLinha) {
+        textoFormatado.pop_back();
+        contadorTamanhoLinha--;
     }
 
     return textoFormatado;
@@ -59,7 +72,7 @@ std::string FormatadorTexto::formatarEsquerda(const std::string& texto, const un
 
 void FormatadorTexto::adicionarEspacosFim(std::string& referencia, const unsigned int quantidadeEspacos) {
     for(unsigned int i = 0; i < quantidadeEspacos; i++) {
-        referencia.push_back(' ');
+        referencia.push_back(TOKEN_ESPACO);
     }
 
     return;
@@ -71,12 +84,18 @@ std::string FormatadorTexto::formatarDireita(const std::string& texto, const uns
 
     unsigned int contadorTamanhoLinha = 0;
     unsigned int indexEspacamento = 0;
+    std::string palavraAnterior = "";
     for(std::string palavra : textoSeparado) {
         if(contadorTamanhoLinha + palavra.size() < maximoCaracteresPorLinha) {
             contadorTamanhoLinha += palavra.size() + 1;
             textoFormatado += palavra + ' ';
         }
         else {
+            if(palavraAnterior.size() < maximoCaracteresPorLinha) {
+                textoFormatado.pop_back();
+                contadorTamanhoLinha--;
+            }
+
             adicionarEspacosPosicao(textoFormatado, indexEspacamento, maximoCaracteresPorLinha - contadorTamanhoLinha);
             textoFormatado.push_back('\n');
             indexEspacamento = textoFormatado.size();
@@ -84,6 +103,13 @@ std::string FormatadorTexto::formatarDireita(const std::string& texto, const uns
             contadorTamanhoLinha = palavra.size() + 1;
             textoFormatado += palavra + ' ';
         }
+
+        palavraAnterior = palavra;
+    }
+
+    if(palavraAnterior.size() < maximoCaracteresPorLinha) {
+        textoFormatado.pop_back();
+        contadorTamanhoLinha--;
     }
 
     adicionarEspacosPosicao(textoFormatado, indexEspacamento, maximoCaracteresPorLinha - contadorTamanhoLinha);
@@ -93,7 +119,7 @@ std::string FormatadorTexto::formatarDireita(const std::string& texto, const uns
 
 void FormatadorTexto::adicionarEspacosPosicao(std::string& referencia, const unsigned int posicao, const unsigned int quantidadeEspacos) {
     for(unsigned int i = 0; i < quantidadeEspacos; i++) {
-        referencia.insert(referencia.begin() + posicao, ' ');
+        referencia.insert(referencia.begin() + posicao, TOKEN_ESPACO);
     }
 
     return;
@@ -105,12 +131,18 @@ std::string FormatadorTexto::formatarCentro(const std::string& texto, const unsi
 
     unsigned int indexEspacamento = 0;
     unsigned int contadorTamanhoLinha = 0;
+    std::string palavraAnterior = "";
     for(std::string palavra : textoSeparado) {
         if(contadorTamanhoLinha + palavra.size() < maximoCaracteresPorLinha) {
             contadorTamanhoLinha += palavra.size() + 1;
             textoFormatado += palavra + ' ';
         }
         else {
+            if(palavraAnterior.size() < maximoCaracteresPorLinha) {
+                textoFormatado.pop_back();
+                contadorTamanhoLinha--;
+            }
+
             unsigned int quantidadeEspacosEmCadaLado = std::round((maximoCaracteresPorLinha - contadorTamanhoLinha) / 2);
             adicionarEspacosPosicao(textoFormatado, indexEspacamento, quantidadeEspacosEmCadaLado);
             adicionarEspacosFim(textoFormatado, quantidadeEspacosEmCadaLado);
@@ -121,6 +153,13 @@ std::string FormatadorTexto::formatarCentro(const std::string& texto, const unsi
             contadorTamanhoLinha = palavra.size() + 1;
             textoFormatado += palavra + ' ';
         }
+
+        palavraAnterior = palavra;
+    }
+
+    if(palavraAnterior.size() < maximoCaracteresPorLinha) {
+        textoFormatado.pop_back();
+        contadorTamanhoLinha--;
     }
 
     unsigned int quantidadeEspacosEmCadaLado = std::round((maximoCaracteresPorLinha - contadorTamanhoLinha) / 2);
