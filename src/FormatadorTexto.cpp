@@ -2,15 +2,22 @@
 #include <vector>
 #include <fstream>
 #include <cmath>
+#include <iostream>
 
 #include "FormatadorTexto.hpp"
 #include "Alinhamento.hpp"
 #include "Utils.hpp"
 
+#define INFINITO 0x3f3f3f3f
+
 FormatadorTexto::FormatadorTexto() {}
 FormatadorTexto::~FormatadorTexto() {}
 
 std::string FormatadorTexto::formatarTexto(const std::string& texto, const unsigned int maximoCaracteresPorLinha, const Alinhamento alinhamento) {
+    if(alinhamento == Alinhamento::JUSTIFICADO) {
+        return formatarJustificado(texto, maximoCaracteresPorLinha);
+    }
+
     std::string textoFormatado = "";
     std::vector<std::string> textoSeparado = split(texto, ' ');
 
@@ -89,5 +96,47 @@ void FormatadorTexto::adicionarEspacosPosicao(std::string& referencia, const uns
 }
 
 std::string FormatadorTexto::formatarJustificado(const std::string& texto, const unsigned int maximoCaracteresPorLinha) {
+    std::vector<std::string> textoSeparado = split(texto, ' ');
+    unsigned int pesos[textoSeparado.size()][textoSeparado.size()];
+
+    for(unsigned int i = 0; i < textoSeparado.size(); i++) {
+        std::string palavra1 = textoSeparado[i];
+
+        unsigned int somaTamanhoPalavras = 0;
+        for(unsigned int j = i; j < textoSeparado.size(); j++) {
+            std::string palavra2 = textoSeparado[j];
+
+            if(j > 0 && pesos[i][j-1] == INFINITO) {
+                pesos[i][j] = INFINITO;
+                continue;
+            }
+
+            if(i == j) {
+                pesos[i][j] = pow(maximoCaracteresPorLinha - palavra1.size(), 2);
+                continue;
+            }
+
+            unsigned int tamanhoTotalPalavras = palavra1.size() + palavra2.size() + 1;
+            somaTamanhoPalavras += tamanhoTotalPalavras;
+            if(somaTamanhoPalavras > maximoCaracteresPorLinha) {
+                pesos[i][j] = INFINITO;
+                continue;
+            }
+
+            pesos[i][j] = pow(maximoCaracteresPorLinha - somaTamanhoPalavras, 2);
+        }
+    }
+
+    for(unsigned int i = 0; i < textoSeparado.size(); i++) {
+        for(unsigned int j = 0; j < textoSeparado.size(); j++) {
+            if(j == textoSeparado.size() - 1) {
+                std::cout << pesos[i][j] << "\n";
+            }
+            else {
+                std::cout << pesos[i][j] << "\t";
+            }
+        }
+    }
+
     return "";
 }
