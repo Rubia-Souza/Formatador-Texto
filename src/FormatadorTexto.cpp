@@ -59,7 +59,33 @@ std::string FormatadorTexto::formatarEsquerda(const std::string& texto, const un
 }
 
 std::string FormatadorTexto::formatarDireita(const std::string& texto, const unsigned int maximoCaracteresPorLinha) {
-    return "";
+    std::string textoFormatado = "";
+    std::vector<std::string> textoSeparado = split(texto, ' ');
+
+    unsigned int contadorTamanhoLinha = 0;
+    unsigned int indexEspacamento = 0;
+    for(unsigned int i = 0; i < textoSeparado.size(); i++) {
+        if(contadorTamanhoLinha + textoSeparado[i].size() < maximoCaracteresPorLinha) {
+            contadorTamanhoLinha += textoSeparado[i].size() + 1;
+            textoFormatado += textoSeparado[i] + ' ';
+        }
+        else {
+            for(unsigned int j = contadorTamanhoLinha; j < maximoCaracteresPorLinha; j++) {
+                textoFormatado.insert(textoFormatado.begin() + indexEspacamento, ' ');
+            }
+            textoFormatado.push_back('\n');
+            indexEspacamento = textoFormatado.size();
+            
+            contadorTamanhoLinha = textoSeparado[i].size() + 1;
+            textoFormatado += textoSeparado[i] + ' ';
+        }
+    }
+
+    for(unsigned int j = contadorTamanhoLinha; j < maximoCaracteresPorLinha; j++) {
+        textoFormatado.insert(textoFormatado.begin() + indexEspacamento, ' ');
+    }    
+
+    return textoFormatado;
 }
 
 std::string FormatadorTexto::formatarCentro(const std::string& texto, const unsigned int maximoCaracteresPorLinha) {
