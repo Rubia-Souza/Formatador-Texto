@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <cmath>
 
 #include "FormatadorTexto.hpp"
 #include "Alinhamento.hpp"
@@ -89,7 +90,48 @@ std::string FormatadorTexto::formatarDireita(const std::string& texto, const uns
 }
 
 std::string FormatadorTexto::formatarCentro(const std::string& texto, const unsigned int maximoCaracteresPorLinha) {
-    return "";
+    std::string textoFormatado = "";
+    std::vector<std::string> textoSeparado = split(texto, ' ');
+
+    unsigned int indexEspacamento = 0;
+    unsigned int contadorTamanhoLinha = 0;
+    for(unsigned int i = 0; i < textoSeparado.size(); i++) {
+        if(contadorTamanhoLinha + textoSeparado[i].size() < maximoCaracteresPorLinha) {
+            contadorTamanhoLinha += textoSeparado[i].size() + 1;
+            textoFormatado += textoSeparado[i] + ' ';
+        }
+        else {
+            unsigned int quantidadeEspacos = maximoCaracteresPorLinha - contadorTamanhoLinha;
+            unsigned int quantidadeEspacosParte = std::round(quantidadeEspacos / 2);
+
+            for(unsigned int j = 0; j < quantidadeEspacosParte; j++) {
+                textoFormatado.insert(textoFormatado.begin() + indexEspacamento, ' ');
+            }
+
+            for(unsigned int j = 0; j < quantidadeEspacosParte; j++) {
+                textoFormatado.push_back(' ');
+            }
+
+            textoFormatado.push_back('\n');
+            indexEspacamento = textoFormatado.size();
+            
+            contadorTamanhoLinha = textoSeparado[i].size() + 1;
+            textoFormatado += textoSeparado[i] + ' ';
+        }
+    }
+
+    unsigned int quantidadeEspacos = maximoCaracteresPorLinha - contadorTamanhoLinha;
+    unsigned int quantidadeEspacosParte = std::round(quantidadeEspacos / 2);
+    
+    for(unsigned int j = 0; j < quantidadeEspacosParte; j++) {
+        textoFormatado.insert(textoFormatado.begin() + indexEspacamento, ' ');
+    }
+
+    for(unsigned int j = 0; j < quantidadeEspacosParte; j++) {
+        textoFormatado.push_back(' ');
+    }
+
+    return textoFormatado;
 }
 
 std::string FormatadorTexto::formatarJustificado(const std::string& texto, const unsigned int maximoCaracteresPorLinha) {
