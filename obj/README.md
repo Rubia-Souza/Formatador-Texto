@@ -1,0 +1,1 @@
+Esta pasta contem os arquivos de compilação .o gerados ao executar o comando make

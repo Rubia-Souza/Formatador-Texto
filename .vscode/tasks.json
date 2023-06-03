@@ -1,0 +1,58 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "make_clean",
+            "command": "make",
+            "args": [
+                "windows_clean"
+            ],
+            "group": "none"
+        },
+        {
+            "type": "shell",
+            "label": "make_build",
+            "command": "make",
+            "group": {
+                "kind": "build",
+            },
+        },
+        {
+            "label": "make_clean_build",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "make_clean",
+                "make_build"
+            ]
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: g++.exe arquivo de build ativo",
+            "command": "C:\\Compiladores\\mingw64\\bin\\g++.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-std=c++11",
+                "-g",
+                "${workspaceFolder}/*.o",
+                "-o",
+                "${workspaceFolder}/run.exe"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOn": [
+                "make_clean_build"
+            ],
+            "dependsOrder": "sequence",
+            "detail": "Tarefa gerada pelo Depurador."
+        },
+    ],
+    "version": "2.0.0"
+}
