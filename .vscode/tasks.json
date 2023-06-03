@@ -33,9 +33,9 @@
                 "-fdiagnostics-color=always",
                 "-std=c++11",
                 "-g",
-                "${workspaceFolder}/*.o",
+                "${workspaceFolder}/obj/*.o",
                 "-o",
-                "${workspaceFolder}/run.exe"
+                "${workspaceFolder}/bin/run.exe"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
