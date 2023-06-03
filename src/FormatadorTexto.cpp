@@ -46,9 +46,7 @@ std::string FormatadorTexto::formatarEsquerda(const std::string& texto, const un
             textoFormatado += palavra + ' ';
         }
         else {
-            for(unsigned int j = contadorTamanhoLinha; j < maximoCaracteresPorLinha; j++) {
-                textoFormatado.push_back(' ');
-            }
+            adicionarEspacosFim(textoFormatado, maximoCaracteresPorLinha - contadorTamanhoLinha);
             textoFormatado.push_back('\n');
             
             contadorTamanhoLinha = palavra.size() + 1;
@@ -57,6 +55,14 @@ std::string FormatadorTexto::formatarEsquerda(const std::string& texto, const un
     }
 
     return textoFormatado;
+}
+
+void FormatadorTexto::adicionarEspacosFim(std::string& referencia, const unsigned int quantidadeEspacos) {
+    for(unsigned int i = 0; i < quantidadeEspacos; i++) {
+        referencia.push_back(' ');
+    }
+
+    return;
 }
 
 std::string FormatadorTexto::formatarDireita(const std::string& texto, const unsigned int maximoCaracteresPorLinha) {
@@ -71,9 +77,7 @@ std::string FormatadorTexto::formatarDireita(const std::string& texto, const uns
             textoFormatado += palavra + ' ';
         }
         else {
-            for(unsigned int j = contadorTamanhoLinha; j < maximoCaracteresPorLinha; j++) {
-                textoFormatado.insert(textoFormatado.begin() + indexEspacamento, ' ');
-            }
+            adicionarEspacosPosicao(textoFormatado, indexEspacamento, maximoCaracteresPorLinha - contadorTamanhoLinha);
             textoFormatado.push_back('\n');
             indexEspacamento = textoFormatado.size();
             
@@ -82,11 +86,17 @@ std::string FormatadorTexto::formatarDireita(const std::string& texto, const uns
         }
     }
 
-    for(unsigned int j = contadorTamanhoLinha; j < maximoCaracteresPorLinha; j++) {
-        textoFormatado.insert(textoFormatado.begin() + indexEspacamento, ' ');
-    }    
+    adicionarEspacosPosicao(textoFormatado, indexEspacamento, maximoCaracteresPorLinha - contadorTamanhoLinha);
 
     return textoFormatado;
+}
+
+void FormatadorTexto::adicionarEspacosPosicao(std::string& referencia, const unsigned int posicao, const unsigned int quantidadeEspacos) {
+    for(unsigned int i = 0; i < quantidadeEspacos; i++) {
+        referencia.insert(referencia.begin() + posicao, ' ');
+    }
+
+    return;
 }
 
 std::string FormatadorTexto::formatarCentro(const std::string& texto, const unsigned int maximoCaracteresPorLinha) {
@@ -101,16 +111,9 @@ std::string FormatadorTexto::formatarCentro(const std::string& texto, const unsi
             textoFormatado += palavra + ' ';
         }
         else {
-            unsigned int quantidadeEspacos = maximoCaracteresPorLinha - contadorTamanhoLinha;
-            unsigned int quantidadeEspacosParte = std::round(quantidadeEspacos / 2);
-
-            for(unsigned int j = 0; j < quantidadeEspacosParte; j++) {
-                textoFormatado.insert(textoFormatado.begin() + indexEspacamento, ' ');
-            }
-
-            for(unsigned int j = 0; j < quantidadeEspacosParte; j++) {
-                textoFormatado.push_back(' ');
-            }
+            unsigned int quantidadeEspacosEmCadaLado = std::round((maximoCaracteresPorLinha - contadorTamanhoLinha) / 2);
+            adicionarEspacosPosicao(textoFormatado, indexEspacamento, quantidadeEspacosEmCadaLado);
+            adicionarEspacosFim(textoFormatado, quantidadeEspacosEmCadaLado);
 
             textoFormatado.push_back('\n');
             indexEspacamento = textoFormatado.size();
@@ -120,16 +123,9 @@ std::string FormatadorTexto::formatarCentro(const std::string& texto, const unsi
         }
     }
 
-    unsigned int quantidadeEspacos = maximoCaracteresPorLinha - contadorTamanhoLinha;
-    unsigned int quantidadeEspacosParte = std::round(quantidadeEspacos / 2);
-    
-    for(unsigned int j = 0; j < quantidadeEspacosParte; j++) {
-        textoFormatado.insert(textoFormatado.begin() + indexEspacamento, ' ');
-    }
-
-    for(unsigned int j = 0; j < quantidadeEspacosParte; j++) {
-        textoFormatado.push_back(' ');
-    }
+    unsigned int quantidadeEspacosEmCadaLado = std::round((maximoCaracteresPorLinha - contadorTamanhoLinha) / 2);
+    adicionarEspacosPosicao(textoFormatado, indexEspacamento, quantidadeEspacosEmCadaLado);
+    adicionarEspacosFim(textoFormatado, quantidadeEspacosEmCadaLado);
 
     return textoFormatado;
 }
