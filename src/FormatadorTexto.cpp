@@ -96,47 +96,73 @@ void FormatadorTexto::adicionarEspacosPosicao(std::string& referencia, const uns
 }
 
 std::string FormatadorTexto::formatarJustificado(const std::string& texto, const unsigned int maximoCaracteresPorLinha) {
+    std::string linhaAtual = "";
+    std::string textoFormatado = "";
     std::vector<std::string> textoSeparado = split(texto, ' ');
-    unsigned int pesos[textoSeparado.size()][textoSeparado.size()];
+    
+    unsigned int j = 0;
+    unsigned int contadorTamanhoLinha = 0;
+    for(unsigned int i = 0; i < textoSeparado.size(); i = j) {
+        std::string palavraInicial = textoSeparado[i];
+        contadorTamanhoLinha += palavraInicial.size();
 
-    for(unsigned int i = 0; i < textoSeparado.size(); i++) {
-        std::string palavra1 = textoSeparado[i];
+        j = i + 1;
+        unsigned int quantidadeMinimaEspacos = j - i - 1; // quantidadeIntervalosEntrePalavras
+        unsigned int tamanhoLinhaComProximaPalavra = contadorTamanhoLinha + textoSeparado[j].size() + quantidadeMinimaEspacos;
 
-        unsigned int somaTamanhoPalavras = 0;
-        for(unsigned int j = i; j < textoSeparado.size(); j++) {
-            std::string palavra2 = textoSeparado[j];
-
-            if(j > 0 && pesos[i][j-1] == INFINITO) {
-                pesos[i][j] = INFINITO;
-                continue;
-            }
-
-            if(i == j) {
-                pesos[i][j] = pow(maximoCaracteresPorLinha - palavra1.size(), 2);
-                continue;
-            }
-
-            unsigned int tamanhoTotalPalavras = palavra1.size() + palavra2.size() + 1;
-            somaTamanhoPalavras += tamanhoTotalPalavras;
-            if(somaTamanhoPalavras > maximoCaracteresPorLinha) {
-                pesos[i][j] = INFINITO;
-                continue;
-            }
-
-            pesos[i][j] = pow(maximoCaracteresPorLinha - somaTamanhoPalavras, 2);
+        while(j < textoSeparado.size() && tamanhoLinhaComProximaPalavra < maximoCaracteresPorLinha) {
+            contadorTamanhoLinha += textoSeparado[j].size();            
+            
+            j++;
+            quantidadeMinimaEspacos = j - i - 1;
+            tamanhoLinhaComProximaPalavra = contadorTamanhoLinha + textoSeparado[j].size();
         }
+
+        unsigned int quantidadeRestanteCaracters = maximoCaracteresPorLinha - contadorTamanhoLinha;
+        unsigned int quantidadePalavras = j - i;
+
+        if(quantidadePalavras == 1 || j >= textoSeparado.size()) {
+            for(unsigned int k = i; k < j; k++) {
+                linhaAtual += ' ' + textoSeparado[k];
+            }
+
+            unsigned int quantidadeEspacosDireita = quantidadeRestanteCaracters - quantidadeMinimaEspacos;
+            for(unsigned int k = 0; k < quantidadeEspacosDireita; k++) {
+                linhaAtual.push_back(' ');
+            }
+
+            linhaAtual.push_back('\n');
+            textoFormatado += linhaAtual;
+        }
+        else {
+            unsigned int quantidadeEspacos = std::round(quantidadeRestanteCaracters / quantidadeMinimaEspacos);
+            int quantidadeExtraEspacos = quantidadeRestanteCaracters % quantidadeMinimaEspacos;
+
+            for(unsigned int k = i; k < j; k++) {
+                unsigned int quantidadeEspacosAdicionada = quantidadeEspacos;
+                quantidadeExtraEspacos--;
+                if(quantidadeExtraEspacos > 0) {
+                    quantidadeEspacosAdicionada++;
+                }
+
+                for(unsigned int l = 0; l < quantidadeEspacosAdicionada; l++) {
+                    linhaAtual.push_back(' ');
+                }
+
+                linhaAtual += textoSeparado[k];
+            }
+
+            linhaAtual.push_back('\n');
+            textoFormatado += linhaAtual;
+        }
+
+        linhaAtual = "";
+        contadorTamanhoLinha = 0;
     }
 
-    for(unsigned int i = 0; i < textoSeparado.size(); i++) {
-        for(unsigned int j = 0; j < textoSeparado.size(); j++) {
-            if(j == textoSeparado.size() - 1) {
-                std::cout << pesos[i][j] << "\n";
-            }
-            else {
-                std::cout << pesos[i][j] << "\t";
-            }
-        }
-    }
+    return textoFormatado;
+}
 
-    return "";
+void FormatadorTexto::adicionarEspacosIgualmente(std::string& referencia, const unsigned int quantidade) {
+
 }
