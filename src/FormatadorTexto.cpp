@@ -2,7 +2,6 @@
 #include <vector>
 #include <fstream>
 #include <cmath>
-#include <iostream>
 
 #include "FormatadorTexto.hpp"
 #include "Alinhamento.hpp"

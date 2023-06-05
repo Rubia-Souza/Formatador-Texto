@@ -5,6 +5,12 @@
 #include "FormatadorTexto.hpp"
 #include "Alinhamento.hpp"
 
+/**
+ * @brief Ajusta o texto informado de todas as formas possíveis (Esquerda, Direita, Centro e Justificado)
+ * 
+ * @param texto É o texto que será ajustado
+ * @param maximoCaracteresPorLinha É o máximo de caracteres que podem ter em uma linha do texto formatado
+ */
 void ExecutarCasoTeste(std::string& texto, const unsigned int maximoCaracteresPorLinha);
 
 int main() {
