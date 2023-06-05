@@ -1,2 +1,2 @@
 # Formatador-Texto
-Questão 2 do teste prático do CRS
+Questão 2 do teste prático do CSR
