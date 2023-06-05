@@ -22,12 +22,12 @@ std::string FormatadorTexto::formatarTexto(const std::string& texto, const unsig
     unsigned int indexEspacamento = 0;
     unsigned int contadorTamanhoLinha = 0;
     for(std::string palavra : textoSeparado) {
-        if(contadorTamanhoLinha + palavra.size() < maximoCaracteresPorLinha) {
+        if(contadorTamanhoLinha + palavra.size() <= maximoCaracteresPorLinha) {
             contadorTamanhoLinha += palavra.size() + 1;
             textoFormatado += palavra + ' ';
         }
         else {
-            if(palavraAnterior.size() < maximoCaracteresPorLinha) {
+            if(palavraAnterior.size() <= maximoCaracteresPorLinha) {
                 textoFormatado.pop_back();
                 contadorTamanhoLinha--;
             }
@@ -43,7 +43,7 @@ std::string FormatadorTexto::formatarTexto(const std::string& texto, const unsig
         palavraAnterior = palavra;
     }
 
-    if(palavraAnterior.size() < maximoCaracteresPorLinha) {
+    if(palavraAnterior.size() <= maximoCaracteresPorLinha) {
         textoFormatado.pop_back();
         contadorTamanhoLinha--;
     }
